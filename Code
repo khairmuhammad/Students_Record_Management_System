@@ -1,0 +1,558 @@
+#include<iostream>
+#include<conio.h>
+#include<string>
+#include<fstream>
+using namespace std;
+//Give a start and heading to the program
+void start();
+
+//This function will show Student's Data in a arranged format
+void dataMenuS();
+
+//This function will show Teacher's Data in a arranged format
+void dataMenuT();
+
+//This will write the students data
+int writingStudentsData();
+
+//This function will read the students data
+void readingStudentsData();
+
+//This function will write Teachers data
+int writingTeachersData();
+
+//This will read Teachers data
+void readingTeachersData();
+
+//This function will give a main menu 
+void mainMenu();
+
+//This function will give separate menu to students section
+void menuStudent();
+
+//This function will give menu to Teachers section
+void menuTeacher();
+
+void main()
+{
+	system("color 2f");
+	//This will give the program a complete menu
+	mainMenu();
+
+
+
+	getch();
+}
+//In main menu we have written some other menus that are sub-parts of main menu
+void mainMenu()
+{
+	//this will give a start interface
+	start();
+	//declare a variable to select the option on the next operation is going to perform
+	short int choices;
+	//Give the names of the operations 
+
+	do
+	{
+	cout<<"\nEnter 1 for Students Data";
+	cout<<"\nEnter 2 for Teachers Data";
+	cout<<"\n\nEnter number to perform that operation: ";
+	cin>>choices;
+	//used switch case to select the user desired option
+	switch(choices)
+	{
+		//If user enters 1 then program will select the case 1 that is about Student menu
+	case 1:
+		system("cls");
+		menuStudent();
+		break;
+
+		//If user enters 2 then program will select the case 2 that is about Teacher menu
+	case 2:
+		system("cls");
+		menuTeacher();
+		break;
+
+		//If user put other then that cases program will show a message to the user
+	default:
+		cout<<"Inavlid entry.."<<endl;
+	}
+
+	}
+	while(choices!=1 || choices!=2);
+}
+
+// create this function to give a particular heading and some sort of starting interface to the program
+void start()
+{
+		for(int i=1; i<=80; i++)
+	{
+		cout<<"*";
+	}
+	cout<<"\t\tStudents and Teachers Record Management System"<<endl;
+	for(int j=1; j<=80; j++)
+	{
+		cout<<"*";
+	}
+}
+
+int writingStudentsData()
+{
+	//used the ostream to write the data in the program
+	ofstream input;
+
+	//user will give a file name to the new created file
+	string fileName;
+	
+	//user will enter students name to store
+	string name;
+	
+	//user will enter students father name
+	string fatherName;
+	
+	//user will enter students roll number
+	string cmsId;
+
+	//user will enter students date of Admission
+	string dateOfAdmission;
+	
+	//user will enter students department
+	string department;
+
+	//semster
+	string semester;
+	
+	//user will enter file name
+	cout<<"\n\t\tDo not use space, Use underscore as space";
+	cout<< "\nPlease enter file name to write: ";
+	cin>>fileName;
+	//This condition will check the file name if it is already in the system it will give a message to the user
+	if (ifstream(fileName+".txt"))
+{
+     cout << "File already exists" <<endl;
+	 {
+	 writingStudentsData();
+	 }
+	 return false;
+	 
+}
+	
+	//this will create and open a folder with .txt extension in which data is going to be stored
+	input.open(fileName+".txt");
+	if(input.fail())
+		cout<<"file is corrupted/moved...";
+	else
+		cout<<"File created with student name "<<fileName;
+
+	cout<<"\nEnter Student Name: ";
+	cin>>name;
+	cout<<"Enter Student Father's Name: ";
+	cin>>fatherName;
+	cout<<"Enter Student's Department: ";
+	cin>>department;
+	cout<<"Enter Student's Date of Admission: ";
+	cin>>dateOfAdmission;
+	cout<<"Enter students CMS ID: ";
+	cin>>cmsId;
+	cout<<"Enter Semester No : ";
+	cin>>semester;
+
+	if (input.is_open())
+  {
+	  input << name;
+	  input << "\n"<<fatherName;
+	  input << "\n"<<department;
+	  input << "\n"<<dateOfAdmission;
+	  input << "\n"<<cmsId;
+	  input << "\n"<<semester;
+    input.close();
+	cout<<"\nData saved..";
+  }
+
+  else cout << "Unable to save data in the file";
+
+  //This will give user an other interface to select one operation that user is going to perform next
+  short int choice;
+
+  do
+  {
+			cout<<"\nEnter 1 for write Student Data.\nEnter -1 for main menu.\nEnter -2 for previous menu.\n";
+			cin>>choice;
+			/*here is a condition if user enters a number that is not mention in the above statements 
+			then user will see a message about entering an invalid number*/
+			
+			if(choice==1)
+			{
+				system("cls");
+				writingStudentsData();
+			}
+			else if(choice==-1)
+			{
+				system("cls");
+				mainMenu();
+			}
+			else if(choice==-2)
+			{
+				system("cls");
+				menuStudent();
+			}
+			else
+
+				cout<<"Invalid entry";
+  }
+  while(choice!=-1 || choice!=1 || choice!=2);
+}
+
+void readingStudentsData()
+{
+	// in this function I have used ifstream that is used in reading files in c++
+	string fileName;
+	string name;
+	string cmsId;
+	string semester;
+	string dateOfAdmission;
+	string fatherName;
+	string department;
+	ifstream read;
+
+	//user will enter file name to find that file
+			cout<<"Enter File name: ";
+				cin>>fileName;
+				read.open(fileName+".txt");
+					
+				if(read.fail())
+
+					cout<<"not found.."<<endl;
+				
+				else
+					{
+						dataMenuS();
+				//here i have given a condition to read all the data that is stored in file through End-of-File condition
+				while(!read.eof())
+					{
+				read>>name;
+				read>>fatherName;
+				read>>department;
+				read>>dateOfAdmission;
+				read>>cmsId;
+				read>>semester;
+				cout<<"\nStudent Name: "<<name<<endl;
+				cout<<"Father's Name: "<<fatherName<<endl;
+				cout<<"Student's Department: "<<department<<endl;
+				cout<<"Student's Date of Admission : "<<dateOfAdmission<<endl;
+				cout<<"CMS ID: "<<cmsId<<endl;
+				cout<<"Student's Semester: "<<semester<<endl;
+				read.close();
+					}
+				for(int i=1; i<=80; i++)
+				{
+					cout<<"-";
+				}
+				}
+				//here another menu for the user to select the operation that he/she wannts to perform
+				short int choice;
+			do
+			{
+				cout<<"\nEnter 1 for read Student Data.\nEnter -1 for main menu.\nEnter -2 for previous menu.\n";
+				cin>>choice;
+				/*given if else conditions to check the user input, if user enter a number related to above operations
+				 the program will call that function, if enters a number that is not mention in above commands then
+				 program will show him/her a message that you have entered an invalid number/entry */
+				if(choice==1)
+				{
+					system("cls");
+					readingStudentsData();
+				}
+				else if(choice==-1)
+				{
+					system("cls");
+					mainMenu();
+				}
+				else if(choice==-2)
+				{
+					system("cls");
+					menuStudent();
+				}
+				else
+					cout<<"Invalid entry";
+			}
+			while(choice!=-1 || choice!=1 || choice!=2);
+}
+
+int writingTeachersData()
+{
+	/*To write Teachers data I have used same method and used ofstream to create a file first and then
+	entered data in that file declared variables to store teachers specific information*/
+	ofstream input;
+	string fileName;
+	string name;
+	string department;
+	string dateOfAppointment;
+	string age;
+	string contactNumber;
+	string emailAddress;
+	cout<<"\n\t\tDo not use space, Use underscore as space";
+	cout<< "\nPlease enter file name to write: ";
+	cin>>fileName;
+	/*used a condition to verify that there is no same file name, if there is then the program will not
+	create the file */
+	if (ifstream(fileName+".txt"))
+{
+     cout << "File already exists" <<endl;
+	 {
+		 writingTeachersData();
+	 }
+     return false;
+}
+	//here another condition if file is not created/corrupted then it will show that message that "file not created"
+	input.open( fileName+".txt" );
+	if(input.fail())
+		cout<<"file not created...";
+	else
+		/*after entering file name if it is valid then this will know you that
+		you have created a file with name(the name given by you to the file)*/
+		cout<<"File created with Teacher name "<<fileName;
+
+	cout<<"\nEnter Teacher Name: ";
+	cin>>name;
+	cout<<"Enter Date of Appointment: ";
+	cin>>dateOfAppointment;
+	cout<<"Enter Age of Teacher: ";
+	cin>>age;
+	cout<<"Enter Teacher's Department: ";
+	cin>>department;
+	cout<<"Enter Teacher's Contact Number: ";
+	cin>>contactNumber;
+	cout<<"Enter Teacher's Email Address: ";
+	cin>>emailAddress;
+	//this will open the file and store the data in it
+	if (input.is_open())
+  {
+	  input << name;
+	  input << "\n"<<department;
+	  input << "\n"<<dateOfAppointment;
+	  input << "\n"<<age;
+	  input << "\n"<<contactNumber;
+	  input << "\n"<<emailAddress;
+    input.close();
+	cout<<"\nData saved..";
+  }
+	//if due to some problems file is not opening then this message will be shown to the user
+  else cout << "file not opened";
+
+  /*here is another menu for user after saving the data, that now what he/she want to do if user
+  will enter a number that is not mentioned in the operations list program will show a message regarding
+  an invalid entry.*/
+
+  short int choice;
+  
+  do
+  {
+	cout<<"\nEnter 1 for Write Teacher Data.\nEnter -1 for main menu.\nEnter -2 for previous menu.\n";
+	cin>>choice;
+				if(choice==1)
+				{
+					system("cls");
+					writingTeachersData();
+				}
+				else if(choice==-1)
+				{
+					system("cls");
+					mainMenu();
+				}
+				else if(choice==-2)
+				{
+					system("cls");
+					menuTeacher();
+				}
+				else
+					cout<<"Invalid entry";
+  
+  }
+  while(choice!=-1 || choice!=1 || choice!=2);
+}
+
+void readingTeachersData()
+{
+	/*This function will read the teachers data, its working is same like students data reading function,
+	used ifstream to read the data from a file*/
+	ifstream read;
+	string fileName;
+	string name;
+	string department;
+	string dateOfAppointment;
+	string age;
+	string contactNumber;
+	string emailAddress;
+	
+	/*This will ask user to input teacher's name to find that teacher's record in the system, 
+	if record is not found then program will show a message to the user that file not found.
+	if record is found then program will read all the data and display that data on the console*/
+			cout<<"Enter file name: ";
+			cin>>fileName;
+			read.open(fileName+".txt");
+					
+				if(read.fail())
+
+					cout<<"not found.."<<endl;
+				
+				else
+					{
+				//given a condition "End-of-File" to raed all the data in the file
+				while(!read.eof())
+					{
+						dataMenuT();
+				read>>name;
+				read>>department;
+				read>>dateOfAppointment;
+				read>>age;
+				read>>contactNumber;
+				read>>emailAddress;
+
+				cout<<"Teacher's Name: "<<name<<endl;
+				cout<<"Teacher's Department: "<<department<<endl;
+				cout<<"Date of Appointment: "<<dateOfAppointment<<endl;
+				cout<<"Age of Teacher: "<<age<<endl;
+				cout<<"Contact Number: "<<contactNumber<<endl;
+				cout<<"Email Address: "<<emailAddress<<endl;
+				read.close();
+					}
+				for(int i=1; i<=80; i++)
+				{
+					cout<<"_";
+				}
+				}
+				/*Here is another sub-menu for user that will ask user for the next operation
+				if user enters a number mentioned in the list then program will call that function
+				and if user enters an other number that is not mentioned in the list then program will
+				show him/her a message regarding entering an invalid entry/number after performing the
+				reading operation*/
+
+				short int choice;
+
+				do
+				{
+				cout<<"\nEnter 1 for read Teacher Data.\nEnter -1 for main menu.\nEnter -2 for previous menu.";
+				cin>>choice;
+				if(choice==1)
+				{
+					system("cls");
+					readingTeachersData();
+				}
+				else if(choice==-1)
+				{
+					system("cls");
+					mainMenu();
+				}
+				else if(choice==-2)
+				{
+					system("cls");
+					menuTeacher();
+				}
+				else
+					cout<<"Invalid entry";
+				}
+				while(choice!=-1 || choice!=1 || choice!=2);
+
+
+}
+
+void menuTeacher()
+{
+	/*make this function to organize the program in a way that user can easily perform operatoins on the desired sections,
+	this will help the the user to work smoothly on the program*/
+	for(int i=1; i<=80; i++)
+	{
+		cout<<"-";
+	}
+	cout<<"\t\t\t\tTeachers Data Management Menu "<<endl;
+	for(int i=1; i<=80; i++)
+	{
+		cout<<"-";
+	}	
+	/*here is another sub-menu that will ask the user to enter the number of the operation that he/she wants perform,
+	here is condition that will check whether the user entered a valid operation number or not,
+	if user entered a number that is not an operation number then the program will give a message
+	regarding an error to the user that he/she has entered an invalid number*/
+	short int choice;
+	cout<<"\n\nEnter 1 for reading Teachers Data.\nEnter 2 for writing Teachers Data.\nEnter -1 for Main Menu";
+		cout<<"\n\nEnter your selection: ";
+		cin>>choice;
+		switch(choice)
+		{
+		case 1:
+			system("cls");
+			readingTeachersData();
+			break;
+		case 2:
+			system("cls");
+			writingTeachersData();
+			break;
+		case -1:
+			system("cls");
+			mainMenu();
+			break;
+		default:
+			cout<<"Invalid entry...";
+		}
+
+}
+
+void menuStudent()
+{
+	/*This function also do the work of organization and it organizes the program and give a user friendly
+	enviroment*/
+	for(int i=1; i<=80; i++)
+	{
+		cout<<"=";
+	}
+	cout<<"\t\t\t\tStudents Data Management Menu "<<endl;
+	for(int i=1; i<=80; i++)
+	{
+		cout<<"=";
+	}	
+
+	short int choice;
+	//Here are the operations that user can perform in this section
+		cout<<"\n\nEnter 1 for writing Students Data.\nEnter 2 for reading Students Data.\nEneter -1 for Main Menu.";
+		cout<<"\nEnter your selection: ";
+		cin>>choice;
+	/*here used switch statement, if the user's entered number does not match the cases 
+	then program will show user a default message that is about entering an invalid number*/
+		switch(choice)
+		{
+
+		case 1:
+			system("cls");
+			writingStudentsData();
+			break;
+		case 2:
+			system("cls");
+			readingStudentsData();
+			break;
+		case -1:
+			system("cls");
+			mainMenu();
+			break;
+		default:
+			cout<<"Invalid entry...";
+		}
+}
+
+void dataMenuS()
+{
+	for(int i=1; i<=80; i++)
+	{
+		cout<<"-";
+	}
+	cout<<"\n\t\t\tStudent's Information"<<endl;
+}
+
+void dataMenuT()
+{
+	for(int i=1; i<=80; i++)
+	{
+		cout<<"_";
+	}
+	cout<<"\n\t\t\tTeacher's Information"<<endl;
+}
